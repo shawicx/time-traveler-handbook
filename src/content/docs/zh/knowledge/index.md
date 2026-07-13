@@ -8,6 +8,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 # 知识分类
 
 <CardGrid>
+  <Card title="时期" href="/zh/knowledge/eras/" icon="document" />
   <Card title="文明" href="/zh/knowledge/civilizations/" icon="document" />
   <Card title="人物" href="/zh/knowledge/people/" icon="document" />
   <Card title="事件" href="/zh/knowledge/events/" icon="document" />

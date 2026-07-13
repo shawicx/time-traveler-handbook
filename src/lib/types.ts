@@ -44,11 +44,18 @@ export interface EntityIndexEntry {
   /** 是否首页精选（来自 frontmatter featured，未标记则 false）。 */
   featured: boolean;
   /**
-   * 文明区域标签（仅 type=civilization 有值）。
+   * 所属文明 id（仅 era/dynasty 有值，可能为空）。
    *
-   * 放在索引层而非独立 civilizations.json，是因为首页 Civilization Explorer
-   * 的数据需求轻量（仅需 region 用于卡片展示），无需再开一条产物管线。
-   * 其它实体类型此字段为空数组。
+   * 从 frontmatter 的 connections 里 type=belongs_to 的 target 提取，
+   * 用于首页 DestinationExplorer 按 civilization 分组 era/dynasty。
+   * 未声明归属的 era/dynasty 为 undefined，首页归入"其它"组。
+   */
+  civilizationId?: string;
+  /**
+   * 地区标签（仅 type=civilization 与 type=era 有值）。
+   *
+   * 放在索引层而非独立产物文件，是因为首页的数据需求轻量（仅需 region 用于
+   * 分组与卡片展示），无需再开一条产物管线。其它实体类型此字段为空数组。
    */
   regions: string[];
 }

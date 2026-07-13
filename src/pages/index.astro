@@ -24,7 +24,7 @@ import '../../node_modules/@astrojs/starlight/style/props.css';
 import Header from '../components/home/Header.astro';
 import Hero from '../components/home/Hero.astro';
 import Stats from '../components/home/Stats.astro';
-import CivilizationGrid from '../components/home/CivilizationGrid.astro';
+import DestinationExplorer from '../components/home/DestinationExplorer.astro';
 import Footer from '../components/home/Footer.astro';
 import type { HomeLocale } from '../components/home/strings.ts';
 import type { EntityIndex } from '../lib/types.ts';
@@ -55,7 +55,7 @@ const index = entityIndex as EntityIndex;
     <main>
       <Hero locale={locale} docsHref={docsHref} />
       <Stats locale={locale} index={index} />
-      <CivilizationGrid locale={locale} index={index} />
+      <DestinationExplorer locale={locale} index={index} />
     </main>
     <Footer locale={locale} docsHref={docsHref} />
   </body>

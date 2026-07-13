@@ -8,6 +8,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 # Knowledge Categories
 
 <CardGrid>
+  <Card title="Eras" href="/en/knowledge/eras/" icon="document" />
   <Card title="Civilizations" href="/en/knowledge/civilizations/" icon="document" />
   <Card title="People" href="/en/knowledge/people/" icon="document" />
   <Card title="Events" href="/en/knowledge/events/" icon="document" />

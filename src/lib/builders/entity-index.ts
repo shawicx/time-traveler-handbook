@@ -27,9 +27,16 @@ export function buildEntityIndex(entities: ParsedEntity[]): EntityIndex {
         end: e.frontmatter.end as number | undefined,
         featured: (e.frontmatter.featured as boolean | undefined) ?? false,
         regions:
-          e.type === 'civilization'
+          e.type === 'civilization' || e.type === 'era'
             ? ((e.frontmatter.regions as string[] | undefined) ?? [])
             : [],
+        // era/dynasty 的所属文明：从 connections 里 type=belongs_to 的 target 提取。
+        civilizationId:
+          e.type === 'era' || e.type === 'dynasty'
+            ? ((e.frontmatter.connections as Array<{ target: string; type: string }> | undefined)?.find(
+                (c) => c.type === 'belongs_to',
+              )?.target as string | undefined)
+            : undefined,
       };
       index[e.id] = entry;
     }

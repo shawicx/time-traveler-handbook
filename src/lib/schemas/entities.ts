@@ -14,15 +14,35 @@ import { baseEntitySchema } from './common.js';
  */
 
 /**
- * 文明：对一组 dynasty / place / person 等实体的高层聚合。
+ * 时期：手册的核心时间目的地类型（era-first 架构）。
  *
- * 设计动机：首页 "Civilization Explorer" 需要一个比 dynasty 更大的语义容器——
- * "中华文明" 聚合了秦、汉、唐、宋、明、清等多个 dynasty。civilization 不重复
- * dynasty 的字段，而是通过 `connections` 指向其下属实体，反向边（哪些实体属于
- * 该文明）由 graph.json 的 reverseIndex 反查得到，无需在 frontmatter 手填。
+ * 设计动机：穿越者首先选择"去哪个时代"——唐朝、罗马共和国、中世纪、文艺复兴。
+ * era 聚合该时期内的人物/事件/技术/组织等，是手册的主轴。它与 civilization
+ * （空间容器）正交：一个 era 可以属于一个 civilization（唐朝 → 中华文明），
+ * 也可以跨文明/政权（中世纪、文艺复兴），后者不归属任何单一 civilization。
  *
- * `regions`：粗粒度地理标签（如 europe / east-asia），用于首页卡片展示与筛选。
- * 细粒度地点仍走 connections → place 实体，不在此重复。
+ * era 与 dynasty 的边界：dynasty 是单一政权（唐、宋、罗马共和国），era 是更
+ * 宽泛的时间切片。政权型 era 与 dynasty 高度重叠，可视为 dynasty 的泛化；
+ * 跨政权时期（中世纪等）只能用 era 承接。实践中政权型目的地推荐直接用 dynasty，
+ * 跨政权时期用 era，二者在首页并列展示，不做硬性区分。
+ *
+ * `regions`：适用地区（如"中世纪"→ europe）。细粒度地点仍走 connections → place。
+ */
+export const eraSchema = baseEntitySchema.extend({
+  type: z.literal('era'),
+  /** 适用地区标签（粗粒度，如 europe / east-asia / mediterranean）。 */
+  regions: z.array(z.string()).default([]),
+});
+
+/**
+ * 文明：空间聚合容器，把同一地区的 era/dynasty 归到一起。
+ *
+ * 与 era 的关系：civilization 是空间维度（中华文明、罗马文明），era 是时间维度
+ * （唐朝、中世纪）。二者通过 connections 关联——era 的 frontmatter 写
+ * `connections: [{target: <civilization-id>, type: belongs_to}]`。跨政权 era
+ * （如文艺复兴）可不归属任何 civilization。
+ *
+ * `regions`：粗粒度地理标签（如 europe / east-asia），用于首页分组展示。
  */
 export const civilizationSchema = baseEntitySchema.extend({
   type: z.literal('civilization'),
@@ -125,6 +145,7 @@ export const timelineSchema = baseEntitySchema.extend({
  * 校验时，Zod 会根据 frontmatter 的 `type` 值选择对应分支并校验专属字段。
  */
 export const entitySchema = z.discriminatedUnion('type', [
+  eraSchema,
   civilizationSchema,
   personSchema,
   eventSchema,
@@ -140,6 +161,8 @@ export const entitySchema = z.discriminatedUnion('type', [
 /** 任意实体（所有具体实体类型的联合）。 */
 export type Entity = z.infer<typeof entitySchema>;
 
+/** 时期。 */
+export type Era = z.infer<typeof eraSchema>;
 /** 文明。 */
 export type Civilization = z.infer<typeof civilizationSchema>;
 /** 人物。 */

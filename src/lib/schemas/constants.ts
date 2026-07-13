@@ -12,10 +12,14 @@
  *
  * 对应 frontmatter 里的 `type` 字段，决定实体归类与 URL 路径。
  *
- * 注：civilization 排在首位，因为它是首页 Civilization Explorer 的主数据源，
- * 也是 dynasty / place / person 等实体的高层聚合容器。
+ * 排序约定（影响首页模块与统计的展示顺序）：
+ * - `era` 首位：手册是 era-first 的——"穿越到唐朝/中世纪"是核心入口，
+ *   era 是时间目的地，作为手册主轴。
+ * - `civilization` 次位：空间分组器，把同一地区的 era/dynasty 归到一起
+ *   （如"中华文明 → 秦/汉/唐/宋"）。civilization 与 era 正交：空间 vs 时间。
  */
 export const ENTITY_TYPES = [
+  'era',
   'civilization',
   'person',
   'event',
@@ -48,6 +52,7 @@ export type CategoryType = (typeof CATEGORY_TYPES)[number];
  * 例如：type=technology → 目录 technologies → URL /zh/knowledge/technologies/steam-engine
  */
 export const typeToDirectory: Readonly<Record<CategoryType, string>> = {
+  era: 'eras',
   civilization: 'civilizations',
   person: 'people',
   event: 'events',

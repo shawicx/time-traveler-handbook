@@ -36,6 +36,20 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
+              label: '时期',
+              collapsed: true,
+              items: [
+                { autogenerate: { directory: 'knowledge/eras' } },
+              ],
+            },
+            {
+              label: '文明',
+              collapsed: true,
+              items: [
+                { autogenerate: { directory: 'knowledge/civilizations' } },
+              ],
+            },
+            {
               label: '人物',
               collapsed: true,
               items: [

@@ -1,0 +1,292 @@
+---
+/**
+ * 时空目的地浏览器：首页主推模块（era-first 架构）。
+ *
+ * 数据逻辑：
+ *  - civilization 作为空间分组器（中华文明、罗马文明...）
+ *  - era/dynasty 作为时间目的地，通过 EntityIndexEntry.civilizationId 归入分组
+ *  - 未声明归属的 era/dynasty 归入"其它时期"组
+ *
+ * civilizationId 由 entity-index 构建期从 era/dynasty 的 connections 里
+ * type=belongs_to 的 target 提取（见 builders/entity-index.ts）。
+ * 本组件不依赖 reverseIndex，纯读 entity-index.json。
+ *
+ * 空态：entity-index 无 era/dynasty 时显示建设中提示。
+ */
+import { STRINGS } from './strings.ts';
+import type { HomeLocale } from './strings.ts';
+import type { EntityIndex, EntityIndexEntry } from '../../lib/types.ts';
+import { entityUrl } from '../../lib/schemas/constants.ts';
+
+interface Props {
+  locale: HomeLocale;
+  index: EntityIndex;
+}
+
+const { locale, index } = Astro.props;
+const t = STRINGS[locale];
+
+/** 目的地 = era 或 dynasty。 */
+const isDestination = (e: EntityIndexEntry) =>
+  e.type === 'era' || e.type === 'dynasty';
+
+const civilizations = Object.values(index).filter(
+  (e) => e.type === 'civilization',
+);
+const destinations = Object.values(index).filter(isDestination);
+
+/** 年份区间格式化：公元前为负。 */
+function formatYearRange(
+  start: number | undefined,
+  end: number | undefined,
+  loc: HomeLocale,
+): string | undefined {
+  if (start === undefined && end === undefined) return undefined;
+  const fmt = (y?: number) => {
+    if (y === undefined) return '?';
+    return y < 0
+      ? loc === 'zh'
+        ? `公元前 ${Math.abs(y)}`
+        : `${Math.abs(y)} BC`
+      : loc === 'zh'
+        ? `${y} 年`
+        : `${y} AD`;
+  };
+  return `${fmt(start)} — ${fmt(end)}`;
+}
+
+interface DestinationCard {
+  id: string;
+  title: string;
+  href: string;
+  range?: string;
+  type: 'era' | 'dynasty';
+}
+
+interface DestinationGroup {
+  /** civilization id，undefined 表示"其它"组。 */
+  civilizationId?: string;
+  /** 分组标题（文明名，或"其它时期"）。 */
+  label: string;
+  /** 文明地区标签（仅非空组有）。 */
+  regions: string[];
+  cards: DestinationCard[];
+}
+
+const toCard = (e: EntityIndexEntry): DestinationCard => ({
+  id: e.id,
+  title: e.title,
+  href: entityUrl(e.type, locale, e.id),
+  range: formatYearRange(e.start, e.end, locale),
+  type: e.type as 'era' | 'dynasty',
+});
+
+// 按 civilizationId 分组 destinations
+const groups: DestinationGroup[] = [];
+const byCiv = new Map<string | undefined, EntityIndexEntry[]>();
+for (const d of destinations) {
+  const key = d.civilizationId;
+  if (!byCiv.has(key)) byCiv.set(key, []);
+  byCiv.get(key)!.push(d);
+}
+
+// 先按 civilizations 数组顺序生成有文明归属的分组
+for (const civ of civilizations) {
+  const members = byCiv.get(civ.id) ?? [];
+  if (members.length === 0) continue;
+  members.sort((a, b) => (a.start ?? 0) - (b.start ?? 0));
+  groups.push({
+    civilizationId: civ.id,
+    label: civ.title,
+    regions: civ.regions,
+    cards: members.map(toCard),
+  });
+}
+
+// 未归属任何 civilization 的 era/dynasty → "其它"组
+const others = byCiv.get(undefined) ?? [];
+if (others.length > 0) {
+  others.sort((a, b) => (a.start ?? 0) - (b.start ?? 0));
+  groups.push({
+    label: t.otherGroup,
+    regions: [],
+    cards: others.map(toCard),
+  });
+}
+
+const isEmpty = destinations.length === 0;
+---
+
+<section class="dest" aria-labelledby="dest-title">
+  <div class="dest__inner">
+    <header class="dest__head">
+      <h2 id="dest-title" class="dest__title">{t.destinationsTitle}</h2>
+      <p class="dest__subtitle">{t.destinationsSubtitle}</p>
+    </header>
+
+    {
+      isEmpty ? (
+        <p class="dest__empty">{t.empty}</p>
+      ) : (
+        <div class="dest__groups">
+          {groups.map((g) => (
+            <section class="dest__group">
+              <h3 class="dest__group-title">
+                {g.label}
+                {g.regions.length > 0 && (
+                  <span class="dest__group-regions">
+                    {g.regions.map((r) => (
+                      <span class="dest__chip">{r}</span>
+                    ))}
+                  </span>
+                )}
+              </h3>
+              <ul class="dest__grid">
+                {g.cards.map((c) => (
+                  <li>
+                    <a class="dest__card" href={c.href}>
+                      <span class="dest__card-type">
+                        {locale === 'zh'
+                          ? c.type === 'era'
+                            ? '时期'
+                            : '朝代'
+                          : c.type === 'era'
+                            ? 'Era'
+                            : 'Dynasty'}
+                      </span>
+                      <h4 class="dest__card-title">{c.title}</h4>
+                      {c.range && <p class="dest__card-range">{c.range}</p>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .dest {
+    padding: 4rem 1.5rem;
+  }
+
+  .dest__inner {
+    max-width: 75rem;
+    margin: 0 auto;
+  }
+
+  .dest__head {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .dest__title {
+    margin: 0 0 0.5rem;
+    font-size: var(--sl-text-h2, 1.75rem);
+    font-weight: 700;
+    color: var(--sl-color-white);
+  }
+
+  .dest__subtitle {
+    margin: 0;
+    font-size: var(--sl-text-body, 1.05rem);
+    color: var(--sl-color-text);
+  }
+
+  .dest__empty {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-body, 1.05rem);
+    border: 1px dashed var(--sl-color-gray-5);
+    border-radius: 0.75rem;
+  }
+
+  .dest__groups {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .dest__group-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.75rem;
+    font-size: var(--sl-text-h3, 1.4rem);
+    font-weight: 700;
+    color: var(--sl-color-white);
+    border-bottom: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+  }
+
+  .dest__group-regions {
+    display: inline-flex;
+    gap: 0.4rem;
+  }
+
+  .dest__chip {
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    font-size: var(--sl-text-2xs, 0.75rem);
+    font-weight: 400;
+    color: var(--sl-color-accent-high);
+    background: var(--sl-color-accent-low);
+  }
+
+  .dest__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dest__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    background: var(--sl-color-bg-sidebar, var(--sl-color-gray-6));
+    border: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+    text-decoration: none;
+    transition:
+      transform 0.12s ease,
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .dest__card:hover {
+    transform: translateY(-2px);
+    border-color: var(--sl-color-accent);
+    box-shadow: var(--sl-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.25));
+  }
+
+  .dest__card-type {
+    font-size: var(--sl-text-2xs, 0.7rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3);
+  }
+
+  .dest__card-title {
+    margin: 0;
+    font-size: var(--sl-text-xl, 1.2rem);
+    font-weight: 700;
+    color: var(--sl-color-white);
+  }
+
+  .dest__card-range {
+    margin: auto 0 0;
+    font-size: var(--sl-text-sm, 0.85rem);
+    color: var(--sl-color-gray-2);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

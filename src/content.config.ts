@@ -21,6 +21,7 @@ const docs = defineCollection({
         id: z.string().optional(),
         type: z
           .enum([
+            'era',
             'civilization',
             'person',
             'event',

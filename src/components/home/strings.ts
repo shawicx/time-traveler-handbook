@@ -17,6 +17,7 @@ export const SITE = {
 /** 各 type 的双语显示名，对齐 src/lib/schemas/constants.ts 的 ENTITY_TYPES。 */
 export const TYPE_LABELS: Record<HomeLocale, Record<string, string>> = {
   zh: {
+    era: '时期',
     civilization: '文明',
     person: '人物',
     event: '事件',
@@ -29,6 +30,7 @@ export const TYPE_LABELS: Record<HomeLocale, Record<string, string>> = {
     timeline: '时间线',
   },
   en: {
+    era: 'Eras',
     civilization: 'Civilizations',
     person: 'People',
     event: 'Events',
@@ -45,14 +47,15 @@ export const TYPE_LABELS: Record<HomeLocale, Record<string, string>> = {
 /** 首页 UI 文案。 */
 export const STRINGS = {
   zh: {
-    tagline: '面向时空旅人的开源知识库。',
+    tagline: '穿越之前，先了解你的目的地。',
     description:
-      '探索文明、历史、技术与生存策略。以 Markdown 为唯一数据源，构建期生成知识图谱、时间轴与科技树。',
-    explore: '探索知识库',
+      '选择一个时代——唐朝、罗马共和国、中世纪——查看那个时期的组织、技术、经济与生存策略。以 Markdown 为唯一数据源，构建期生成知识图谱、时间轴与科技树。',
+    explore: '浏览知识库',
     viewGithub: '查看 GitHub',
     statsTitle: '项目统计',
-    civilizationsTitle: '文明',
-    civilizationsSubtitle: '从主要历史文明进入知识库。',
+    destinationsTitle: '时空目的地',
+    destinationsSubtitle: '选择你要穿越到的时代，按文明分组。',
+    otherGroup: '其它时期',
     empty: '内容正在建设中，敬请期待。',
     footerDocs: '文档',
     footerContributing: '贡献指南',
@@ -60,14 +63,15 @@ export const STRINGS = {
     footerRoadmap: '路线图',
   },
   en: {
-    tagline: 'An open-source knowledge base for time travelers.',
+    tagline: 'Know your destination before you arrive.',
     description:
-      'Explore civilizations, history, technologies, and survival strategies. Markdown is the single source of truth; the knowledge graph, timeline, and tech tree are generated at build time.',
-    explore: 'Explore Knowledge',
+      'Pick an era — Tang Dynasty, Roman Republic, the Middle Ages — and explore the organizations, technologies, economy, and survival strategies of that time. Markdown is the single source of truth; the knowledge graph, timeline, and tech tree are generated at build time.',
+    explore: 'Browse Knowledge',
     viewGithub: 'View GitHub',
     statsTitle: 'Project Statistics',
-    civilizationsTitle: 'Civilizations',
-    civilizationsSubtitle: 'Enter the knowledge base through major historical civilizations.',
+    destinationsTitle: 'Time-Space Destinations',
+    destinationsSubtitle: 'Choose an era to travel to, grouped by civilization.',
+    otherGroup: 'Other Eras',
     empty: 'Content is under construction. Stay tuned.',
     footerDocs: 'Documentation',
     footerContributing: 'Contributing',
