@@ -1,0 +1,34 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# generated data artifacts (produced by `pnpm gen`, never committed)
+src/data/generated/*
+!src/data/generated/.gitkeep
+
+# astro
+.astro/
+
+# logs
+*.log
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# environment
+.env
+.env.production
+.env.development
+
+# macOS
+.DS_Store
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.zcode

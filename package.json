@@ -1,0 +1,39 @@
+{
+  "name": "time-traveler-handbook",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Time Traveler Handbook —— 基于 Astro + Starlight 的双语历史知识库，以 Markdown 为唯一数据源，构建期生成知识图谱、时间线、科技树。",
+  "packageManager": "pnpm@11.0.9",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "gen": "tsx scripts/gen-data.mts",
+    "prebuild": "pnpm gen"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.0",
+    "@astrojs/mdx": "^7.0.2",
+    "@astrojs/starlight": "^0.41.3",
+    "astro": "^7.0.7",
+    "astro-icon": "^1.1.5",
+    "glob": "^11.0.0",
+    "gray-matter": "^4.0.3",
+    "sharp": "^0.33.5",
+    "unist-util-visit": "^5.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.0",
+    "unified": "^11.0.5"
+  }
+}
