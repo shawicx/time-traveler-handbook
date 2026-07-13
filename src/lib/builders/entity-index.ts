@@ -23,6 +23,13 @@ export function buildEntityIndex(entities: ParsedEntity[]): EntityIndex {
         type: e.type,
         title: e.title,
         paths: { [e.locale]: e.url },
+        start: e.frontmatter.start as number | undefined,
+        end: e.frontmatter.end as number | undefined,
+        featured: (e.frontmatter.featured as boolean | undefined) ?? false,
+        regions:
+          e.type === 'civilization'
+            ? ((e.frontmatter.regions as string[] | undefined) ?? [])
+            : [],
       };
       index[e.id] = entry;
     }

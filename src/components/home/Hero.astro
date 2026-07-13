@@ -1,0 +1,138 @@
+---
+/**
+ * Hero 区：项目定位与主行动按钮。
+ *
+ * 全宽背景 + 居中内容，是首页的视觉焦点。两个 CTA：
+ *  - Explore Knowledge → 进入文档站（带 locale 前缀）
+ *  - View GitHub → 仓库地址（新标签页）
+ */
+import { SITE, STRINGS } from './strings.ts';
+
+interface Props {
+  locale: 'zh' | 'en';
+  docsHref: string;
+}
+
+const { locale, docsHref } = Astro.props;
+const t = STRINGS[locale];
+---
+
+<section class="hero">
+  <div class="hero__inner">
+    <h1 class="hero__title">{locale === 'zh' ? SITE.title : SITE.titleEn}</h1>
+    <p class="hero__tagline">{t.tagline}</p>
+    <p class="hero__desc">{t.description}</p>
+    <div class="hero__actions">
+      <a class="hero__cta hero__cta--primary" href={docsHref}>
+        {t.explore}
+      </a>
+      <a
+        class="hero__cta hero__cta--ghost"
+        href={SITE.github}
+        target="_blank"
+        rel="noopener"
+      >
+        {t.viewGithub}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 6rem 1.5rem 5rem;
+    text-align: center;
+    background:
+      radial-gradient(
+        ellipse 80% 60% at 50% 0%,
+        var(--sl-color-accent-low),
+        transparent 70%
+      ),
+      var(--sl-color-bg);
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .hero__title {
+    margin: 0 0 1rem;
+    font-size: clamp(2.25rem, 6vw, var(--sl-text-6xl, 4rem));
+    font-weight: 800;
+    line-height: var(--sl-line-height-headings, 1.2);
+    letter-spacing: -0.02em;
+    color: var(--sl-color-white);
+  }
+
+  .hero__tagline {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 600;
+    line-height: var(--sl-line-height-headings, 1.3);
+    color: var(--sl-color-accent-high);
+  }
+
+  .hero__desc {
+    margin: 0 auto 2.5rem;
+    max-width: 36rem;
+    font-size: var(--sl-text-body, 1.05rem);
+    line-height: var(--sl-line-height, 1.75);
+    color: var(--sl-color-text);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    font-size: var(--sl-text-base, 1rem);
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background-color 0.15s ease;
+  }
+
+  .hero__cta--primary {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-text-invert);
+    box-shadow: var(--sl-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.25));
+  }
+
+  .hero__cta--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sl-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.35));
+  }
+
+  .hero__cta--ghost {
+    background: transparent;
+    color: var(--sl-color-text);
+    border: 1px solid var(--sl-color-gray-4);
+  }
+
+  .hero__cta--ghost:hover {
+    color: var(--sl-color-white);
+    border-color: var(--sl-color-accent);
+  }
+
+  @media (max-width: 30rem) {
+    .hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero__cta {
+      width: 100%;
+    }
+  }
+</style>

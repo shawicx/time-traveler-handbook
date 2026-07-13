@@ -11,8 +11,12 @@
  * 所有受支持的实体类型。
  *
  * 对应 frontmatter 里的 `type` 字段，决定实体归类与 URL 路径。
+ *
+ * 注：civilization 排在首位，因为它是首页 Civilization Explorer 的主数据源，
+ * 也是 dynasty / place / person 等实体的高层聚合容器。
  */
 export const ENTITY_TYPES = [
+  'civilization',
   'person',
   'event',
   'place',
@@ -44,6 +48,7 @@ export type CategoryType = (typeof CATEGORY_TYPES)[number];
  * 例如：type=technology → 目录 technologies → URL /zh/knowledge/technologies/steam-engine
  */
 export const typeToDirectory: Readonly<Record<CategoryType, string>> = {
+  civilization: 'civilizations',
   person: 'people',
   event: 'events',
   place: 'places',

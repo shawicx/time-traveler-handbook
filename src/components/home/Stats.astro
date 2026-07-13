@@ -1,0 +1,121 @@
+---
+/**
+ * 项目统计：按 type 聚合 entity-index 的实体数。
+ *
+ * 设计原则——首页只展示入口，不维护独立数据。统计完全派生自
+ * entity-index.json（构建产物），无独立数据源。当前内容为空时
+ * 各计数为 0，组件天然降级为占位展示，无需特殊空态分支。
+ */
+import { STRINGS, TYPE_LABELS } from './strings.ts';
+import type { HomeLocale } from './strings.ts';
+import type { EntityIndex } from '../../lib/types.ts';
+
+interface Props {
+  locale: HomeLocale;
+  /** 构建产物 entity-index.json 解析后的对象。 */
+  index: EntityIndex;
+}
+
+const { locale, index } = Astro.props;
+const t = STRINGS[locale];
+
+// 按 type 计数：遍历 entity-index 一次，聚合每个 type 的实体数。
+const counts = new Map<string, number>();
+for (const entry of Object.values(index)) {
+  counts.set(entry.type, (counts.get(entry.type) ?? 0) + 1);
+}
+
+// 展示顺序对齐 ENTITY_TYPES（constants.ts）。
+const orderedTypes = [
+  'civilization',
+  'person',
+  'event',
+  'place',
+  'dynasty',
+  'organization',
+  'technology',
+  'invention',
+  'book',
+  'timeline',
+] as const;
+
+const stats = orderedTypes.map((type) => ({
+  type,
+  label: TYPE_LABELS[locale][type],
+  count: counts.get(type) ?? 0,
+}));
+---
+
+<section class="stats" aria-labelledby="stats-title">
+  <div class="stats__inner">
+    <h2 id="stats-title" class="stats__title">{t.statsTitle}</h2>
+    <ul class="stats__grid">
+      {
+        stats.map((s) => (
+          <li class="stats__item">
+            <span class="stats__count">{s.count}</span>
+            <span class="stats__label">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding: 3.5rem 1.5rem;
+    border-bottom: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+  }
+
+  .stats__inner {
+    max-width: 75rem;
+    margin: 0 auto;
+  }
+
+  .stats__title {
+    margin: 0 0 2rem;
+    font-size: var(--sl-text-h2, 1.75rem);
+    font-weight: 700;
+    text-align: center;
+    color: var(--sl-color-white);
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1.5rem 1rem;
+    border-radius: 0.75rem;
+    background: var(--sl-color-bg-sidebar, var(--sl-color-gray-6));
+    border: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+    transition: border-color 0.15s ease;
+  }
+
+  .stats__item:hover {
+    border-color: var(--sl-color-accent);
+  }
+
+  .stats__count {
+    font-size: var(--sl-text-3xl, 2rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--sl-color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stats__label {
+    font-size: var(--sl-text-sm, 0.85rem);
+    color: var(--sl-color-text);
+  }
+</style>

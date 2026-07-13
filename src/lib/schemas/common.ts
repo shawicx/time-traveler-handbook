@@ -59,6 +59,15 @@ export const baseEntitySchema = z.object({
   /** 概述。 */
   summary: z.string().optional(),
 
+  /**
+   * 是否在首页展示为精选实体。
+   *
+   * 这是首页 Featured Entities / Featured Guides 的唯一筛选开关：
+   * 构建期无需额外脚本，前端按 `featured === true` 过滤即可。
+   * 不填（undefined）即不精选，向后兼容已有文档。
+   */
+  featured: z.boolean().optional(),
+
   /** 起始年份（公元前为负）。 */
   start: yearField.optional(),
 

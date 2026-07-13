@@ -1,0 +1,86 @@
+---
+/**
+ * 首页入口 /。
+ *
+ * 路由：src/pages/index.astro 优先于 Starlight 注入的兜底路由，
+ * 解决此前根路径返回 404 的问题。
+ *
+ * 语言：项目无 root locale（zh/en 均为带前缀 locale），根路径不携带
+ * locale 信息。这里默认渲染中文（与 astro.config.mjs defaultLocale 一致），
+ * 未来可在此加入 Accept-Language / cookie 探测做自动跳转。
+ *
+ * 数据：全部来自构建产物 src/data/generated/entity-index.json，
+ * 由 prebuild（pnpm gen）在 astro build 前生成。dev 模式下该文件为空 stub，
+ * 各模块自然降级为空态，不会报错。
+ *
+ * 样式：import props.css 复用 Starlight 的 --sl-* 设计令牌，
+ * 保证首页与文档站视觉一致（深浅色、字体、间距）。
+ */
+// 注意：@astrojs/starlight 仅导出 ./style/markdown.css，
+// props.css（--sl-* 设计令牌）未在 package.json exports 中声明，
+// 故无法用 bare import，须走相对路径直接指向 node_modules 文件。
+import '../../node_modules/@astrojs/starlight/style/props.css';
+
+import Header from '../components/home/Header.astro';
+import Hero from '../components/home/Hero.astro';
+import Stats from '../components/home/Stats.astro';
+import CivilizationGrid from '../components/home/CivilizationGrid.astro';
+import Footer from '../components/home/Footer.astro';
+import type { HomeLocale } from '../components/home/strings.ts';
+import type { EntityIndex } from '../lib/types.ts';
+
+import entityIndex from '../data/generated/entity-index.json';
+
+// 根路径无 locale 前缀，默认中文。
+const locale: HomeLocale = 'zh';
+const docsHref = `/${locale}/`;
+const index = entityIndex as EntityIndex;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>时空旅人手册 · Time Traveler Handbook</title>
+    <meta
+      name="description"
+      content="面向时空旅人的开源知识库。探索文明、历史、技术与生存策略。"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <Header locale={locale} docsHref={docsHref} />
+    <main>
+      <Hero locale={locale} docsHref={docsHref} />
+      <Stats locale={locale} index={index} />
+      <CivilizationGrid locale={locale} index={index} />
+    </main>
+    <Footer locale={locale} docsHref={docsHref} />
+  </body>
+</html>
+
+<style is:global>
+  /* 首页全局重置：消除默认 body 边距，承接 --sl-* 令牌。 */
+  html {
+    background: var(--sl-color-bg);
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    font-family: var(--sl-font-system, system-ui, sans-serif);
+    line-height: var(--sl-line-height, 1.75);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    flex: 1;
+  }
+</style>

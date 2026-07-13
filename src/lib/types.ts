@@ -33,6 +33,24 @@ export interface EntityIndexEntry {
   title: string;
   /** 各语言页面路径。 */
   paths: EntityPaths;
+  /**
+   * 起始/结束年份（公元前为负）。
+   *
+   * 冗余存入索引，供首页文明卡片展示时间区间，避免前端再回查 frontmatter。
+   * 大多数实体无年份（undefined），仅在 frontmatter 填写时存在。
+   */
+  start?: number;
+  end?: number;
+  /** 是否首页精选（来自 frontmatter featured，未标记则 false）。 */
+  featured: boolean;
+  /**
+   * 文明区域标签（仅 type=civilization 有值）。
+   *
+   * 放在索引层而非独立 civilizations.json，是因为首页 Civilization Explorer
+   * 的数据需求轻量（仅需 region 用于卡片展示），无需再开一条产物管线。
+   * 其它实体类型此字段为空数组。
+   */
+  regions: string[];
 }
 
 /** entity-index.json 的完整形状：id → 条目。 */

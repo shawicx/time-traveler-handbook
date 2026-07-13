@@ -21,6 +21,7 @@ const docs = defineCollection({
         id: z.string().optional(),
         type: z
           .enum([
+            'civilization',
             'person',
             'event',
             'place',
@@ -35,6 +36,7 @@ const docs = defineCollection({
         aliases: z.array(z.string()).optional(),
         tags: z.array(z.string()).optional(),
         summary: z.string().optional(),
+        featured: z.boolean().optional(),
         start: z.number().optional(),
         end: z.number().optional(),
         connections: z

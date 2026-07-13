@@ -1,0 +1,83 @@
+---
+/**
+ * 首页顶部导航。
+ *
+ * 与 Starlight 文档页 header 视觉保持一致（复用 --sl-nav-height、--sl-color-bg-nav），
+ * 但功能精简：站点标题 + GitHub 链接。搜索、主题切换、语言切换留待后续阶段接入。
+ */
+import { SITE } from './strings.ts';
+
+interface Props {
+  /** 当前语言。 */
+  locale: 'zh' | 'en';
+  /** 文档站入口（带 locale 前缀）。 */
+  docsHref: string;
+}
+
+const { locale, docsHref } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__title">{locale === 'zh' ? SITE.title : SITE.titleEn}</span>
+    </a>
+    <nav class="site-header__nav">
+      <a href={docsHref} class="site-header__link">
+        {locale === 'zh' ? '知识库' : 'Knowledge'}
+      </a>
+      <a href={SITE.github} class="site-header__link" target="_blank" rel="noopener">
+        GitHub
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--sl-z-index-navbar, 10);
+    background: var(--sl-color-bg-nav, var(--sl-color-black));
+    border-bottom: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+    backdrop-filter: saturate(180%) blur(8px);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--sl-nav-height, 3.5rem);
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 0 var(--sl-content-pad-x, 1rem);
+  }
+
+  .site-header__brand {
+    text-decoration: none;
+  }
+
+  .site-header__title {
+    font-size: var(--sl-text-lg, 1.125rem);
+    font-weight: 700;
+    color: var(--sl-color-white);
+    letter-spacing: 0.02em;
+  }
+
+  .site-header__nav {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .site-header__link {
+    font-size: var(--sl-text-base, 0.95rem);
+    color: var(--sl-color-text);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .site-header__link:hover {
+    color: var(--sl-color-white);
+  }
+</style>

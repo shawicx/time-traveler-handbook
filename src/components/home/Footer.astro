@@ -1,0 +1,69 @@
+---
+/**
+ * 首页页脚：文档站链接 + 项目元信息。
+ *
+ * 与设计文档 §12 对齐：GitHub / Documentation / Contributing / License / Roadmap。
+ * License/Contributing/Roadmap 指向仓库内的对应文档（相对链接，按 locale 切前缀）。
+ */
+import { SITE, STRINGS } from './strings.ts';
+import type { HomeLocale } from './strings.ts';
+
+interface Props {
+  locale: HomeLocale;
+  docsHref: string;
+}
+
+const { locale, docsHref } = Astro.props;
+const t = STRINGS[locale];
+const repo = SITE.github;
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <nav class="site-footer__nav">
+      <a href={repo} target="_blank" rel="noopener" class="site-footer__link">GitHub</a>
+      <a href={docsHref} class="site-footer__link">{t.footerDocs}</a>
+      <a href={`${repo}/blob/main/CONTRIBUTING.md`} target="_blank" rel="noopener" class="site-footer__link">
+        {t.footerContributing}
+      </a>
+      <a href={`${repo}/blob/main/LICENSE`} target="_blank" rel="noopener" class="site-footer__link">
+        {t.footerLicense}
+      </a>
+      <a href={`${repo}#roadmap`} target="_blank" rel="noopener" class="site-footer__link">
+        {t.footerRoadmap}
+      </a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    padding: 2.5rem 1.5rem;
+    border-top: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+    background: var(--sl-color-bg-nav, var(--sl-color-black));
+  }
+
+  .site-footer__inner {
+    max-width: 75rem;
+    margin: 0 auto;
+  }
+
+  .site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
+  }
+
+  .site-footer__link {
+    font-size: var(--sl-text-sm, 0.85rem);
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .site-footer__link:hover {
+    color: var(--sl-color-white);
+  }
+</style>
