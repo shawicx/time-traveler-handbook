@@ -25,20 +25,10 @@ for (const entry of Object.values(index)) {
   counts.set(entry.type, (counts.get(entry.type) ?? 0) + 1);
 }
 
-// 展示顺序对齐 ENTITY_TYPES（constants.ts）。
-const orderedTypes = [
-  'era',
-  'civilization',
-  'person',
-  'event',
-  'place',
-  'dynasty',
-  'organization',
-  'technology',
-  'invention',
-  'book',
-  'timeline',
-] as const;
+// 展示顺序：仅 era/civilization/dynasty 三个主轴（与侧边栏对齐）。
+// 其它类型（人物/事件/技术...）仍是合法实体，但作为 era 内部的 facet，
+// 不在首页做顶层入口展示，避免空态噪音。
+const orderedTypes = ['era', 'civilization', 'dynasty'] as const;
 
 const stats = orderedTypes.map((type) => ({
   type,

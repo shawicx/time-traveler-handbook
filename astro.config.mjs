@@ -50,66 +50,10 @@ export default defineConfig({
               ],
             },
             {
-              label: '人物',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/people' } },
-              ],
-            },
-            {
-              label: '事件',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/events' } },
-              ],
-            },
-            {
-              label: '地点',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/places' } },
-              ],
-            },
-            {
               label: '朝代',
               collapsed: true,
               items: [
                 { autogenerate: { directory: 'knowledge/dynasties' } },
-              ],
-            },
-            {
-              label: '组织',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/organizations' } },
-              ],
-            },
-            {
-              label: '技术',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/technologies' } },
-              ],
-            },
-            {
-              label: '发明',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/inventions' } },
-              ],
-            },
-            {
-              label: '书籍',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/books' } },
-              ],
-            },
-            {
-              label: '时间线',
-              collapsed: true,
-              items: [
-                { autogenerate: { directory: 'knowledge/timelines' } },
               ],
             },
           ],
@@ -134,6 +78,12 @@ export default defineConfig({
           href: 'https://github.com/shawicx/time-traveler-handbook',
         },
       ],
+
+      // 覆盖 Starlight 的 MarkdownContent：在正文后追加"相关实体"聚合区块。
+      // 组件按 reverseIndex 分组展示指向当前页的实体，仅 era/civilization/dynasty 页生效。
+      components: {
+        MarkdownContent: './src/components/overrides/MarkdownContent.astro',
+      },
     }),
 
     mdx(),

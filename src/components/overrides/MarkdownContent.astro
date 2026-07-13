@@ -1,0 +1,211 @@
+---
+/**
+ * MarkdownContent override —— 在 Markdown 正文后追加"相关实体"聚合区块。
+ *
+ * 机制：通过 astro.config.mjs 的 components.MarkdownContent 注册后，Starlight
+ * 所有文档页的正文渲染都会走本组件（virtual:starlight/components/MarkdownContent
+ * 指向这里）。本组件先 <slot/>（原正文），再按 reverseIndex 聚合"指向当前页的实体"。
+ *
+ * ⚠️ 必须导入 markdown.css：Starlight 原生 MarkdownContent.astro 头部 import 了
+ * '../style/markdown.css'，它提供表格、标题锚点、代码块等正文元素的样式。
+ * override 若不导入，这些样式丢失，导致表格 collapse、标题锚点错位等回归。
+ * 这是 Starlight 的合法 package export（@astrojs/starlight/style/markdown.css）。
+ *
+ * 数据：graph.json 的 reverseIndex（target → [{source, type}]）。例如
+ * chinese-civilization 页的 reverseIndex 含 xia-dynasty（belongs_to），
+ * 即渲染"夏朝"卡片。
+ *
+ * 条件渲染：只在 era/civilization/dynasty 页且 reverseIndex 非空时展示，
+ * 其余页（guide/404/普通 doc）透传 <slot/> 不渲染聚合区块。
+ *
+ * 注意：entry.id 形如 "knowledge/eras/xia-dynasty"（content collection slug），
+ * graph.json 的 node id 是纯 "xia-dynasty"，用 split('/').pop() 对齐。
+ */
+import '@astrojs/starlight/style/markdown.css';
+import graph from '../../data/generated/graph.json';
+import entityIndex from '../../data/generated/entity-index.json';
+import type { KnowledgeGraph, EntityIndex } from '../../lib/types.ts';
+
+const typedGraph = graph as unknown as KnowledgeGraph;
+const typedIndex = entityIndex as unknown as EntityIndex;
+
+// 取当前页信息。非 Starlight 路由（如首页 index.astro）没有 starlightRoute，直接透传。
+const route = Astro.locals.starlightRoute;
+if (!route) {
+  // 非 Starlight 页，理论上不会走到这里（MarkdownContent 只在 Starlight 页用）
+}
+
+// entry.id 形如 "knowledge/eras/xia-dynasty"，取最后一段对齐 graph 的纯 id
+const rawEntryId = route?.entry?.id ?? '';
+const currentId = rawEntryId.split('/').pop() ?? '';
+
+// 当前页实体的 type（从 entity-index 查，判断是否需要聚合）
+const currentEntry = currentId ? typedIndex[currentId] : undefined;
+const shouldAggregate =
+  currentEntry &&
+  (currentEntry.type === 'era' ||
+    currentEntry.type === 'civilization' ||
+    currentEntry.type === 'dynasty');
+
+// locale 推断：从 URL 路径段取（/zh/... 或 /en/...）
+const urlPath = Astro.url.pathname;
+const locale = urlPath.startsWith('/en/') ? 'en' : 'zh';
+
+// 拿反向引用列表
+const backrefs = shouldAggregate
+  ? typedGraph.reverseIndex[currentId] ?? []
+  : [];
+
+// 用 entityIndex 解析 source → {title, href, type, label}
+type AggItem = {
+  id: string;
+  title: string;
+  href: string;
+  type: string;
+};
+const items: AggItem[] = [];
+for (const ref of backrefs) {
+  const entry = typedIndex[ref.source];
+  if (!entry) continue;
+  // 用对应语言的 path，回退 zh → en
+  const href = entry.paths[locale] ?? entry.paths.zh ?? entry.paths.en;
+  if (!href) continue;
+  items.push({
+    id: ref.source,
+    title: entry.title,
+    href,
+    type: entry.type,
+  });
+}
+
+// 按 type 分组
+const TYPE_LABELS: Record<string, Record<string, string>> = {
+  zh: {
+    era: '时期',
+    civilization: '文明',
+    person: '人物',
+    event: '事件',
+    place: '地点',
+    dynasty: '朝代',
+    organization: '组织',
+    technology: '技术',
+    invention: '发明',
+    book: '书籍',
+    timeline: '时间线',
+  },
+  en: {
+    era: 'Eras',
+    civilization: 'Civilizations',
+    person: 'People',
+    event: 'Events',
+    place: 'Places',
+    dynasty: 'Dynasties',
+    organization: 'Organizations',
+    technology: 'Technologies',
+    invention: 'Inventions',
+    book: 'Books',
+    timeline: 'Timelines',
+  },
+};
+
+const labels = TYPE_LABELS[locale];
+const relatedTitle = locale === 'zh' ? '相关实体' : 'Related Entities';
+
+// 按 type 分组（保留 ENTITY_TYPES 顺序）
+const groupOrder = [
+  'era',
+  'civilization',
+  'person',
+  'event',
+  'place',
+  'dynasty',
+  'organization',
+  'technology',
+  'invention',
+  'book',
+  'timeline',
+];
+const groups = groupOrder
+  .map((type) => ({
+    type,
+    label: labels[type],
+    items: items.filter((i) => i.type === type),
+  }))
+  .filter((g) => g.items.length > 0);
+---
+
+<div class="sl-markdown-content"><slot /></div>
+
+{
+  shouldAggregate && groups.length > 0 && (
+    <section class="related-entities" aria-label={relatedTitle}>
+      <h2>{relatedTitle}</h2>
+      {groups.map((g) => (
+        <div class="related-group">
+          <h3>{g.label}</h3>
+          <ul class="related-list">
+            {g.items.map((item) => (
+              <li>
+                <a href={item.href}>{item.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+<style>
+  .related-entities {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+  }
+
+  .related-entities h2 {
+    font-size: var(--sl-text-h2, 1.75rem);
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin: 0 0 1.5rem;
+  }
+
+  .related-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .related-group h3 {
+    font-size: var(--sl-text-h4, 1.15rem);
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+    margin: 0 0 0.5rem;
+  }
+
+  .related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .related-list li a {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.5rem;
+    font-size: var(--sl-text-base, 0.95rem);
+    color: var(--sl-color-text);
+    background: var(--sl-color-bg-sidebar, var(--sl-color-gray-6));
+    border: 1px solid var(--sl-color-hairline, var(--sl-color-gray-5));
+    text-decoration: none;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .related-list li a:hover {
+    color: var(--sl-color-white);
+    border-color: var(--sl-color-accent);
+  }
+</style>

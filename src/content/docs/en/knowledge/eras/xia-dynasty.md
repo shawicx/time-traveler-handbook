@@ -66,10 +66,9 @@ alliance toward early kingship.
    Attach yourself to a clan quickly.
 4. **Beliefs**: Animism and ancestor worship are central. Profaning a ritual may be fatal.
 
-## Related Entities
-
-- Belongs to: [[chinese-civilization|Chinese Civilization]]
-
 > The historicity of the Xia is still debated (whether the Erlitou culture *is* the Xia
 > remains an open question). Travelers should treat it as shorthand for "early Central
 > Plains bronze civilization" rather than a precise later-style dynasty.
+>
+> Belongs to: [[chinese-civilization|Chinese Civilization]] (the "Related Entities" block
+> is aggregated automatically at build time — no need to hand-write it).
