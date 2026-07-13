@@ -98,8 +98,12 @@ export function categoryPath(type: EntityType): string {
 
 /**
  * 生成实体的完整 URL 路径。
- * 例如 (technology, 'zh', 'steam-engine') → "/zh/knowledge/technologies/steam-engine"
+ * 例如 (technology, 'zh', 'steam-engine') → "/zh/knowledge/technologies/steam-engine/"
+ *
+ * 末尾保留斜杠以与 Starlight 的 canonical URL 对齐（Starlight 为每个实体生成
+ * `<slug>/index.html`，其 canonical 形如 `/zh/.../steam-engine/`）。若不一致，
+ * wiki-link 与首页卡片会指向非 canonical 路径，导致相对资源/锚点解析偏差。
  */
 export function entityUrl(type: EntityType, locale: Locale, id: string): string {
-  return `/${locale}/${categoryPath(type)}/${id}`;
+  return `/${locale}/${categoryPath(type)}/${id}/`;
 }

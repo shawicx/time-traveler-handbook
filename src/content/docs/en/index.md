@@ -3,8 +3,6 @@ title: Knowledge Base
 description: Time Traveler Handbook — an open-source knowledge base for time travelers.
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-
 # Knowledge Base
 
 The **Time Traveler Handbook** is an open-source knowledge base for time travelers.

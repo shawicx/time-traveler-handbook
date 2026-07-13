@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { Plugin } from 'unified';
 import type { Root, Text } from 'mdast';
@@ -29,20 +29,42 @@ const ENTITY_INDEX_PATH = 'src/data/generated/entity-index.json';
 /** wiki 链接正则：[[id]] 或 [[id|别名]]。 */
 const WIKI_LINK_REGEX = /\[\[([^\]\|#]+)(?:\|([^\]]+))?\]\]/g;
 
-/** 模块级缓存：避免每个文档重复读盘。 */
-let cachedIndex: EntityIndex | null = null;
+/**
+ * entity-index 缓存（基于文件 mtime 失效）。
+ *
+ * 为什么不用永久缓存：dev server 是长生命周期进程，`pnpm gen` 会更新
+ * entity-index.json；若缓存不失效，dev 启动时读到的旧/空索引会一直用下去，
+ * 导致 wiki-link 不解析（build 不受影响——每次 build 都是全新进程）。
+ * 用 mtime 做失效条件，既避免每个文档重复读盘解析，又能感知 gen 产物更新。
+ */
+interface IndexCache {
+  mtime: number;
+  data: EntityIndex;
+}
+let cachedIndex: IndexCache | null = null;
 
-/** 读取（并缓存）entity-index。文件不存在时返回空索引（构建期首跑容错）。 */
+/** 读取（并按 mtime 失效缓存）entity-index。文件不存在时返回空索引（构建期首跑容错）。 */
 function loadEntityIndex(cwd = process.cwd()): EntityIndex {
-  if (cachedIndex) return cachedIndex;
+  const filePath = resolve(cwd, ENTITY_INDEX_PATH);
+  let mtime: number;
   try {
-    const raw = readFileSync(resolve(cwd, ENTITY_INDEX_PATH), 'utf8');
-    cachedIndex = JSON.parse(raw) as EntityIndex;
+    mtime = statSync(filePath).mtimeMs;
   } catch {
-    // entity-index 尚未生成（首次 gen 前运行 dev）—— 安全降级，不解析任何链接
-    cachedIndex = {};
+    // 文件不存在：清空缓存，返回空索引（首次 gen 前运行 dev 的容错）
+    cachedIndex = null;
+    return {};
   }
-  return cachedIndex;
+  if (cachedIndex && cachedIndex.mtime === mtime) {
+    return cachedIndex.data;
+  }
+  try {
+    const raw = readFileSync(filePath, 'utf8');
+    cachedIndex = { mtime, data: JSON.parse(raw) as EntityIndex };
+    return cachedIndex.data;
+  } catch {
+    cachedIndex = null;
+    return {};
+  }
 }
 
 /** 选择实体在指定语言下的 URL，缺失时回退 zh→en。 */

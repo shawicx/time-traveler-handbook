@@ -3,10 +3,6 @@ title: 知识库
 description: 时空旅人手册 —— 面向时空旅人的开源历史知识库。
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-
-# 知识库
-
 **时空旅人手册**是一个面向时空旅人的开源知识库。以 Markdown 为唯一数据源，
 构建期生成知识图谱、时间轴与科技树，产出完全静态的站点。
 

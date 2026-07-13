@@ -14,7 +14,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "gen": "tsx scripts/gen-data.mts",
+    "gen": "tsx scripts/gen-data.mts && rm -f .astro/data-store.json",
     "prebuild": "pnpm gen"
   },
   "dependencies": {
