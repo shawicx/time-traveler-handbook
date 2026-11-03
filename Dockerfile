@@ -5,9 +5,10 @@
 
 # ---------- 阶段 1：构建静态站点 ----------
 # node 基底保证 astro 等工具链以 node 运行（兼容性最稳）；
-# bun 二进制取自官方镜像，仅用于依赖安装（bun.lock）
+# bun 二进制取自官方镜像，仅用于依赖安装（bun.lock）。
+# 必须用 alpine 变体：oven/bun:1 是 Debian/glibc 动态链接，拷进 musl 环境无法执行
 FROM node:22-alpine AS build
-COPY --from=oven/bun:1 /usr/local/bin/bun /usr/local/bin/bun
+COPY --from=oven/bun:alpine /usr/local/bin/bun /usr/local/bin/bun
 
 WORKDIR /app
 
