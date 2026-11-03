@@ -20,14 +20,14 @@ Markdown is the single source of truth. At build time, flat documents are compil
 ## Quick Start
 
 ```bash
-pnpm install     # install dependencies
-pnpm dev         # start dev server
-pnpm gen         # generate structured data artifacts (graph/timeline/tech-tree/entity-index)
-pnpm build       # full build (runs pnpm gen automatically first)
-pnpm preview     # preview the build output
+bun install      # install dependencies
+bun dev          # start dev server
+bun gen          # generate structured data artifacts (graph/timeline/tech-tree/entity-index)
+bun build        # full build (runs bun gen automatically first)
+bun preview      # preview the build output
 ```
 
-> Use `pnpm` for all package management. Do not use npm / yarn.
+> Use `bun` for all package management. Do not use npm / pnpm / yarn.
 
 ## Core Concepts
 
@@ -55,7 +55,7 @@ src/
 │   └── build.ts       # build pipeline orchestration
 ├── plugins/
 │   └── remark-wikilink.ts   # [[wiki-link]] resolution
-└── data/generated/    # build artifacts (gitignored, produced by pnpm gen)
+└── data/generated/    # build artifacts (gitignored, produced by bun gen)
     ├── entity-index.json
     ├── graph.json
     ├── timeline.json
@@ -67,7 +67,7 @@ assets/                # language-agnostic media
 
 ## Build Artifacts
 
-`pnpm gen` (auto-triggered before `astro build` via the `prebuild` hook) produces the following JSON:
+`bun gen` (auto-triggered before `astro build` via the `prebuild` hook) produces the following JSON:
 
 | File | Contents |
 | --- | --- |
@@ -100,7 +100,7 @@ Watt's improved steam engine launched the Industrial Revolution. See [[industria
 See [AGENTS.md](./AGENTS.md). Key points:
 - **No git commits** (read-only git operations only).
 - **File deletion requires user confirmation**.
-- **Use `pnpm` exclusively** for dependency management.
+- **Use `bun` exclusively** for dependency management.
 
 For the Chinese version of this README, see [README_ZH.md](./README_ZH.md).
 

@@ -1,0 +1,7 @@
+# 与 .gitignore 对齐：构建无关内容不进 Docker 上下文（源码在阶段 1 内重新构建）
+.git
+.github
+.zcode
+.astro
+node_modules
+dist

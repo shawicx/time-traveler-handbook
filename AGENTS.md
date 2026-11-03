@@ -20,10 +20,10 @@ No database, no backend. Deploys to Cloudflare Pages / GitHub Pages.
    - This covers: `rm`, `git rm`, `rmdir`, overwriting `Write` on an existing non-empty file, `mv` overwriting a target, etc.
    - If you discover that the content to be deleted contradicts how it was described, or was not created by this agent, stop and report to the user instead of proceeding with the deletion.
 
-3. **Use pnpm for dependency management**
-   - All dependency installation, script execution, and workspace operations must use `pnpm`.
-   - Do not use `npm`, `yarn`, or generate `package-lock.json` / `yarn.lock`.
-   - Examples: `pnpm install`, `pnpm add <pkg>`, `pnpm -F <pkg> run <script>`, `pnpm run build`.
+3. **Use bun for dependency management**
+   - All dependency installation, script execution, and workspace operations must use `bun`.
+   - Do not use `npm`, `pnpm`, or `yarn`, and do not generate `package-lock.json` / `pnpm-lock.yaml` / `yarn.lock`.
+   - Examples: `bun install`, `bun add <pkg>`, `bun run <script>`, `bun run build`.
 
 4. **Time-travel premise: the traveler arrives empty-handed**
    - The traveler can **only travel in their own body** — no luggage, no pockets, no devices, no modern items of any kind. This is the single core premise of the entire handbook.

@@ -20,14 +20,14 @@
 ## 快速开始
 
 ```bash
-pnpm install     # 安装依赖
-pnpm dev         # 启动开发服务器
-pnpm gen         # 生成结构化数据产物（graph/timeline/tech-tree/entity-index）
-pnpm build       # 完整构建（自动先跑 pnpm gen）
-pnpm preview     # 预览构建产物
+bun install      # 安装依赖
+bun dev          # 启动开发服务器
+bun gen          # 生成结构化数据产物（graph/timeline/tech-tree/entity-index）
+bun build        # 完整构建（自动先跑 bun gen）
+bun preview      # 预览构建产物
 ```
 
-> 包管理统一使用 `pnpm`，禁止使用 npm / yarn。
+> 包管理统一使用 `bun`，禁止使用 npm / pnpm / yarn。
 
 ## 核心概念
 
@@ -55,7 +55,7 @@ src/
 │   └── build.ts       # 构建管线编排
 ├── plugins/
 │   └── remark-wikilink.ts   # [[wiki-link]] 解析
-└── data/generated/    # 构建产物（gitignore，由 pnpm gen 生成）
+└── data/generated/    # 构建产物（gitignore，由 bun gen 生成）
     ├── entity-index.json
     ├── graph.json
     ├── timeline.json
@@ -67,7 +67,7 @@ assets/                # 与语言无关的媒体资源
 
 ## 构建产物
 
-`pnpm gen`（在 `astro build` 前由 `prebuild` 自动触发）产出以下 JSON：
+`bun gen`（在 `astro build` 前由 `prebuild` 自动触发）产出以下 JSON：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -100,7 +100,7 @@ connections:
 详见 [AGENTS.md](./AGENTS.md)。要点：
 - **禁止 git 提交**（仅只读 git 操作）。
 - **删除文件前必须经用户确认**。
-- **统一使用 pnpm** 管理依赖。
+- **统一使用 bun** 管理依赖。
 
 英文版 README 见 [README.md](./README.md)。
 

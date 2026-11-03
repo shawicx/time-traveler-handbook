@@ -1,9 +1,9 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env bun
 /**
  * 独立构建入口：生成结构化数据产物（graph / timeline / tech-tree / entity-index）。
  *
  * 用法：
- *   pnpm gen
+ *   bun gen
  *
  * 由 package.json 的 `prebuild` 钩子自动触发，确保 astro build 前产物就绪。
  * 也可在开发期手动运行，刷新 wiki-link 插件所依赖的 entity-index。
