@@ -25,6 +25,13 @@ No database, no backend. Deploys to Cloudflare Pages / GitHub Pages.
    - Do not use `npm`, `yarn`, or generate `package-lock.json` / `yarn.lock`.
    - Examples: `pnpm install`, `pnpm add <pkg>`, `pnpm -F <pkg> run <script>`, `pnpm run build`.
 
+4. **Time-travel premise: the traveler arrives empty-handed**
+   - The traveler can **only travel in their own body** — no luggage, no pockets, no devices, no modern items of any kind. This is the single core premise of the entire handbook.
+   - The traveler's **only advantage is knowledge carried in their mind**: hygiene, scientific principles, engineering, astronomy, medicine *theory*, agriculture, map memory, etc.
+   - Do **not** write content that relies on modern artifacts: no "bring antibiotics / a stainless-steel knife / salt / a compass / a notebook / a lighter." This applies to every section of every era guide, including survival checklists, first-24-hours advice, and knowledge-advantage sections.
+   - Medicine is the sharpest case of this rule: the traveler may **know** germ theory, wound-care principles, or which local plants have pharmacological effects — but they carry no pills. Survival advice must be built from **what can be found, grown, or made in the destination era**, plus modern knowledge applied to those materials.
+   - The 16-section survival template (Era Snapshot … Survival Checklist) is a **structure**, not a fixed checklist of items. The "Survival Checklist" section lists **knowledge and skills to memorize before departure**, not physical objects to pack.
+
 ## Tech Stack
 
 | Layer | Technology |
