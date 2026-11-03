@@ -16,13 +16,13 @@ era page:
 
 <CardGrid>
   <Card title="Eras" href="/en/knowledge/eras/">
-    Browse by era: Tang Dynasty, Roman Republic, the Middle Ages.
+    Browse by era: the Middle Ages, the Renaissance, the Bronze Age.
   </Card>
   <Card title="Civilizations" href="/en/knowledge/civilizations/">
     Browse by civilization: Chinese, Roman.
   </Card>
   <Card title="Dynasties" href="/en/knowledge/dynasties/">
-    Browse by single polity.
+    Browse by single polity: Xia, Tang, Song, the Roman Republic.
   </Card>
 </CardGrid>
 

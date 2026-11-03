@@ -1,6 +1,6 @@
 ---
 id: xia-dynasty
-type: era
+type: dynasty
 title: Xia Dynasty
 summary: The first legendary dynasty of Chinese civilization, c. 2070–1600 BC, early Bronze Age, before mature writing.
 start: -2070
@@ -25,6 +25,12 @@ connections:
 > The historicity of the Xia is still debated (whether the Erlitou culture *is* the Xia
 > remains an open question). Travelers should treat it as shorthand for "early Central
 > Plains bronze civilization" rather than a precise later-style dynasty.
+>
+> **Companion guides** (universal across eras, read before departure):
+> [Survival Skills Field Manual](/en/guides/survival-skills/) ·
+> [Mental Preparation](/en/guides/mental-preparation/) ·
+> [Female Traveler's Guide](/en/guides/female-traveler/) ·
+> [Ancient Winter Survival](/en/guides/winter-survival/)
 
 ## 1. Era Snapshot
 
@@ -60,7 +66,7 @@ Tradition holds the Xia was founded by Yu the Great; his son Qi succeeded him, b
 - **Learn the language**: Old Chinese is not mutually intelligible with Modern Chinese, but basic words (water, fire, food, person) can be picked up. Your month-one goal is to understand commands.
 - **Master a craft**: pottery, weaving, and hunting have the lowest entry barriers. A skill earns your meals.
 - **Observe power**: identify the clan chief, the priest, and the craft head. Their favor decides your survival.
-- **Prepare for winter**: by autumn you must stockpile millet and dried meat. Central Plains winters drop below freezing.
+- **Prepare for winter**: by autumn you must stockpile millet and dried meat. Central Plains winters drop below freezing. For the concrete how-to (banked fires, straw quilts, hypothermia first aid), see [Ancient Winter Survival](/en/guides/winter-survival/).
 - **Build a "healer" persona**: use hygiene knowledge (boiling water, isolating the sick, cleaning wounds) to pull off a few "miracle" cures and make yourself an irreplaceable religious figure.
 
 ## 5. Identity & Social Status
@@ -108,7 +114,7 @@ Tradition holds the Xia was founded by Yu the Great; his son Qi succeeded him, b
 - **Disease is the #1 killer**: the Xia have no medicine at all. A minor infected wound is fatal — because they do not understand cleanliness.
 - **Hygiene is a miracle**: boiling drinking water, washing wounds with boiled water, isolating the sick, burning the dead. These "common sense" practices slash mortality and will make you revered as a healer.
 - **Wound care**: rinse with boiled water, wrap in clean (ideally heat-sterilized) hemp cloth. Avoid feces and soil contact.
-- **Herbs you can use**: before departure, memorize common medicinal plants of the Central Plains — mugwort (staunch bleeding, repel insects), plantain (anti-diarrheal), dandelion (cooling). This is your "mind-carried pharmacy."
+- **Herbs you can use**: before departure, memorize common medicinal plants of the Central Plains — mugwort (staunch bleeding, repel insects), plantain (anti-diarrheal), dandelion (cooling). This is your "mind-carried pharmacy." Names alone won't identify plants in the wild — see the field marks, lookalikes, and the edibility trial procedure in [Survival Skills Field Manual](/en/guides/survival-skills/).
 - **Childbirth**: maternal mortality is extremely high. If you know modern midwifery principles (washing hands, cutting the cord with a boiled stone blade, clean dressing), this is a huge bargaining chip.
 - **Dental**: no dentists. Clean teeth by chewing willow twigs to a brush (an ancient method); avoid cracking them on hard objects.
 
@@ -122,6 +128,8 @@ Tradition holds the Xia was founded by Yu the Great; his son Qi succeeded him, b
 | Wildlife | Medium | Travel in groups; carry torches; identify snakes |
 | Enslavement | Medium | Guard your clan identity; avoid borders |
 | Offending nobles/priests | Lethal | Strictly obey ritual; do not speak rashly |
+
+**Female travelers**: the table above omits gender-specific risks — sexual violence, forced marriage, being treated as a breeding resource. In a society with no written law these risks are severe for an unattached woman, and the "healer" persona alone does not protect you in the early weeks. Camouflage, patronage networks, and physiology management are covered in [Female Traveler's Guide](/en/guides/female-traveler/).
 
 ## 11. Laws & Religion
 
@@ -180,7 +188,7 @@ This is not a packing list — you can bring nothing. These are the **knowledge 
 
 **Medical knowledge**
 - [ ] Memorize: all drinking water must be boiled; all wounds must be cleaned with boiled water
-- [ ] Know the form and use of 10+ common medicinal plants (mugwort, plantain, dandelion, honeysuckle…)
+- [ ] Know the **field identification marks** and uses of 10+ common medicinal plants (mugwort, plantain, dandelion, honeysuckle…) — check each against the tables in [Survival Skills Field Manual](/en/guides/survival-skills/)
 - [ ] Master basic delivery and cord-care (clean hands + a boiled cutting tool)
 - [ ] Know fracture-fixation principles (splints, traction)
 
@@ -191,8 +199,13 @@ This is not a packing list — you can bring nothing. These are the **knowledge 
 
 **Agriculture & craft**
 - [ ] Know the principles of crop rotation, composting, seed selection
-- [ ] Learn cordage, basket-weaving, and friction-fire (bow-drill method)
+- [ ] Learn cordage, basket-weaving, and friction-fire (bow-drill method) — step-by-step procedure and training standards in [Survival Skills Field Manual](/en/guides/survival-skills/)
 - [ ] Know millet planting and storage essentials
+
+**Mind & special topics**
+- [ ] Complete sensory desensitization and worst-case rehearsal ([Mental Preparation](/en/guides/mental-preparation/))
+- [ ] Remember the winter triad: banked fire, dry grass, stay dry ([Ancient Winter Survival](/en/guides/winter-survival/))
+- [ ] Female travelers additionally read [Female Traveler's Guide](/en/guides/female-traveler/)
 
 **Language & society**
 - [ ] Memorize basic Old Chinese vocabulary (even if pronunciation is off)

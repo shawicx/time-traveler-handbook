@@ -14,13 +14,13 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 <CardGrid>
   <Card title="时期" href="/zh/knowledge/eras/">
-    按时代浏览：唐朝、罗马共和国、中世纪。
+    按时代浏览：中世纪、文艺复兴、青铜时代。
   </Card>
   <Card title="文明" href="/zh/knowledge/civilizations/">
     按文明浏览：中华文明、罗马文明。
   </Card>
   <Card title="朝代" href="/zh/knowledge/dynasties/">
-    按单一政权浏览。
+    按单一政权浏览：夏、唐、宋、罗马共和国。
   </Card>
 </CardGrid>
 

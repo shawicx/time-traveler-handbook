@@ -98,6 +98,12 @@ export async function readEntities(
       continue;
     }
 
+    // 仅 knowledge/ 下的文档是实体；guides 等其他分区不参与图谱/索引
+    // （见 constants.ts：guide 不是实体类型，没有图谱节点）
+    if (!relPath.split('/').slice(3).includes(KNOWLEDGE_ROOT)) {
+      continue;
+    }
+
     let parsed;
     try {
       const raw = await readFile(absPath, 'utf8');
