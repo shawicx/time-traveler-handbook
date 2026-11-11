@@ -16,6 +16,7 @@ tags:
 connections:
   - { target: xia-dynasty, type: includes }
   - { target: shang-dynasty, type: includes }
+  - { target: zhou-dynasty, type: includes }
 ---
 
 ## 概述
@@ -30,7 +31,8 @@ connections:
 
 - [[xia-dynasty|夏]] —— 传说与考古交织的起点
 - [[shang-dynasty|商]] —— 甲骨文与青铜的巅峰，也是活人祭祀的时代
-- （后续补充：周、秦、汉、唐、宋、明、清）
+- [[zhou-dynasty|周]] —— 礼乐与分封，春秋战国与百家争鸣
+- （后续补充：秦、汉、唐、宋、明、清）
 
 ## 给穿越者的提醒
 
