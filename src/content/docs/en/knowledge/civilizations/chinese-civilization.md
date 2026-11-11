@@ -15,6 +15,7 @@ tags:
   - ancient
 connections:
   - { target: xia-dynasty, type: includes }
+  - { target: shang-dynasty, type: includes }
 ---
 
 ## Overview
@@ -32,7 +33,8 @@ is enormous: **Tang openness and Qing isolation are two different worlds**.
 ## Major Dynasties / Eras
 
 - [[xia-dynasty|Xia]] — the starting point where legend meets archaeology
-- (To be expanded: Shang, Zhou, Qin, Han, Tang, Song, Ming, Qing)
+- [[shang-dynasty|Shang]] — oracle bones and bronze at their peak, and the era of human sacrifice
+- (To be expanded: Zhou, Qin, Han, Tang, Song, Ming, Qing)
 
 ## Reminders for Travelers
 
