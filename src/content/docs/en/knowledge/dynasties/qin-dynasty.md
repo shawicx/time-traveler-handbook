@@ -43,7 +43,7 @@ connections:
 
 | Aspect | Summary |
 | --- | --- |
-| Time | 221 – 207 BC (the pre-unification state of Qin belongs to the [[zhou-dynasty|Zhou Dynasty]] page) |
+| Time | 221 – 207 BC (the pre-unification state of Qin belongs to the [[warring-states-period|Warring States]] page) |
 | Region | The whole realm in commanderies and counties (from 36 upward); capital Xianyang |
 | Polity | Imperial throne + Three Ministers and Nine Courts + commandery-county bureaucracy |
 | Economy | State salt and iron monopolies; unified banliang coin and weights & measures; crushing tax and corvée |

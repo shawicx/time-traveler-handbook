@@ -17,6 +17,8 @@ connections:
   - { target: xia-dynasty, type: includes }
   - { target: shang-dynasty, type: includes }
   - { target: zhou-dynasty, type: includes }
+  - { target: spring-and-autumn-period, type: includes }
+  - { target: warring-states-period, type: includes }
   - { target: qin-dynasty, type: includes }
 ---
 
@@ -36,7 +38,9 @@ is enormous: **Tang openness and Qing isolation are two different worlds**.
 
 - [[xia-dynasty|Xia]] — the starting point where legend meets archaeology
 - [[shang-dynasty|Shang]] — oracle bones and bronze at their peak, and the era of human sacrifice
-- [[zhou-dynasty|Zhou]] — rites and enfeoffment, the Spring-Autumn and Warring States, and the Hundred Schools
+- [[zhou-dynasty|Zhou]] — the dynasty overview of rites and enfeoffment (Western Zhou centered)
+- [[spring-and-autumn-period|Spring and Autumn]] — the aristocracy's twilight: hegemons, covenants, and quoted poetry
+- [[warring-states-period|Warring States]] — reform, total war, and the Hundred Schools
 - [[qin-dynasty|Qin]] — the first unified empire: one script, one axle gauge, and harsh law
 - (To be expanded: Han, Tang, Song, Ming, Qing)
 
